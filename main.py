@@ -140,6 +140,11 @@ class ParticleWindow(pyglet.window.Window):
                 #    c.extend([0, 0, 0])
                     #c.extend([128, x, y])
                     c.extend([0.5, x/128., y/128.])
+
+        for particle in self.sim.particles:
+            idx = int((int(particle.x/particlepy.GRID_MULTIPLIER))*SIM_WIDTH+(int(particle.y/particlepy.GRID_MULTIPLIER)))*3
+            c[idx:idx+3] = particle.c
+
         self.pixels.colors = c
 
         v = []

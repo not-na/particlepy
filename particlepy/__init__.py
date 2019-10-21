@@ -24,6 +24,8 @@
 import random
 from dataclasses import dataclass
 
+import colorsys  # Only required to assign colors to particles
+
 import numpy
 
 GRID_MULTIPLIER = 256
@@ -35,7 +37,7 @@ class Particle(object):
     y: int
     vx: int
     vy: int
-    c: tuple
+    c: list
 
     __slots__ = (
         "x",  # X position in Particle-Space
@@ -59,7 +61,7 @@ class Simulation(object):
         self.pheight = height*GRID_MULTIPLIER-GRID_MULTIPLIER
 
         self.grav_scale = 1
-        self.bounce_scale = 0.5
+        self.bounce_scale = 0.7
 
         self.simtime = 0
 
@@ -79,8 +81,8 @@ class Simulation(object):
 
     def init_particles(self):
         for x in range(32):
-            for y in range(2):
-                self.add_particle(Particle(x * GRID_MULTIPLIER, y * GRID_MULTIPLIER, 0, 0))
+            for y in range(4):
+                self.add_particle(Particle(x * GRID_MULTIPLIER, y * GRID_MULTIPLIER, 0, 0, colorsys.hsv_to_rgb(x/32, 1, 1)))
 
     def add_particle(self, particle):
         self.particles.append(particle)
@@ -229,9 +231,3 @@ class Simulation(object):
             particle.x = nx
             particle.y = ny
             self.set_pixel(particle.x / GRID_MULTIPLIER, particle.y / GRID_MULTIPLIER)
-
-
-
-
-
-
